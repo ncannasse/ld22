@@ -237,6 +237,8 @@ Thank you for playing.
 	var camera : Camera;
 	var world : World;
 	
+	var walkedDist : Float;
+	
 	var px : Float;
 	var py : Float;
 	var pz : Float;
@@ -955,6 +957,7 @@ Thank you for playing.
 		}
 			
 		var speed = 0.1 * dt;
+		if( keys[K.SHIFT] || keys[K.CONTROL] ) speed *= 3;
 		if( inbuilding ) speed *= 0.5;
 		px += Math.cos(angle) * move * speed;
 		py += Math.sin(angle) * move * speed;
@@ -1043,6 +1046,13 @@ Thank you for playing.
 			ldist += lookup * 0.01;
 		var cx = px - Math.cos(angle) * ldist;
 		var cy = py - Math.sin(angle) * ldist;
+		
+		if( viewZ == 34 && changed && Math.abs(lookup + 0.088) < 0.01 ) {
+			walkedDist += speed;
+			viewZ += Math.sin(walkedDist) * 0.2;
+		} else
+			walkedDist = 0;
+			
 		camera.pos.set(cx, cy, viewZ);
 		camera.target.set(cx + Math.cos(angle), cy + Math.sin(angle), viewZ + lookup);
 		camera.update();
