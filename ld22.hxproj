@@ -24,7 +24,7 @@
     <option flashStrict="True" />
     <option mainClass="Main" />
     <option enabledebug="False" />
-    <option additional="-lib format&#xA;-swf-lib gfx.swf" />
+    <option additional="-lib format&#xA;-swf-lib gfx.swf&#xA;&#xA;--next&#xA;-main Boot&#xA;-cp src&#xA;-swf-version 11&#xA;-swf-header 800:600:60&#xA;-swf boot.swf" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

@@ -7,3 +7,9 @@
 -main Main
 -lib format
 -swf-lib gfx.swf
+--next
+-main Boot
+-cp src
+-swf-version 11
+-swf-header 800:600:60
+-swf boot.swf

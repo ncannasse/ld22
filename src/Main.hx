@@ -559,6 +559,9 @@ Thank you for playing.
 		ctx.enableErrorChecking = true;
 		ctx.configureBackBuffer( w, h, 0, true );
 
+		if( ctx.driverInfo.toLowerCase().indexOf("software") >= 0 )
+			newText("This game requires a video card with 3D acceleration enable, please update your video card drivers and check Adobe FAQ here http://adobe.ly/sJ7XFv", 20, 20, root).textColor = 0xFF4040;
+		
 		updateScenario();
 		
 		debug.y = h - 100;
