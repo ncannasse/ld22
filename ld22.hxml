@@ -1,0 +1,9 @@
+-cp src
+-cp lib
+-swf ld22.swf
+-swf-header 800:600:60:FFFFFF
+--flash-strict
+-swf-version 11
+-main Main
+-lib format
+-swf-lib gfx.swf
