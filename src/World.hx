@@ -160,6 +160,8 @@ class World {
 					l2.setPixel(x , y, hx);
 					continue;
 				}
+				if( h == 255 )
+					continue;
 				var size = 1;
 				while( size < 9 ) {
 					var ok = true;

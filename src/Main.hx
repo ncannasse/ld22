@@ -17,10 +17,13 @@ typedef Save = {
 
 class Main {
 
-	static var DEBUG = true;
+	static var DEBUG = false;
 	
-	static var SCENARIO = [
-		{ text : "Welcome to TheCity, we hope you enjoy your stay ! (please move around)", x : 152, y : 69 },
+	static var START = { x : 152, y : 69, z : 255 };
+	
+	static var TUTO = [
+		{ text : "Welcome to TheCity, we hope you enjoy your stay !", x : -1, y : -1 },
+		{ text : "(tip : please move around using arrows/WASD)", x : -1, y : -1 },
 		{ text : "Access terminal #01-MAY", x : 178, y : 77 },
 		{ text : "Find your first STAR in neighbour building", x : 197, y : 75 },
 		{ text : "Please return to terminal #01-MAY", x : 178, y : 77 },
@@ -289,6 +292,9 @@ Thank you for playing.
 	
 	var gameOver : Null<Float>;
 	
+	var music : flash.media.Sound;
+	var musicChannel : flash.media.SoundChannel;
+	
 	function new(root) {
 		this.root = root;
 		t = 0;
@@ -297,18 +303,22 @@ Thank you for playing.
 		rndSeed = 546451;
 		lookup = 0;
 		
+		music = new flash.media.Sound();
+		music.load(new flash.net.URLRequest("ld22.mp3"));
+		musicChannel = music.play();
+				
 		keys = [];
 		world = new World();
 		lastKill = { x : 0., y : 0., count : 0 };
 		save = flash.net.SharedObject.getLocal("save");
 		var sv : Save = save.data;
 		if( Math.isNaN(sv.px) ) {
-			px = SCENARIO[0].x + 0.5;
-			py = SCENARIO[0].y + 0.5;
-			pz = world.height0(Std.int(px),Std.int(py));
+			px = START.x + 0.5;
+			py = START.y + 0.5;
+			pz = START.z;
+			scenario = -1;
 			angle = 0;
 			showMap = true;
-			scenario = 0;
 			starFound = [];
 			termAccess = [];
 		} else {
@@ -522,7 +532,7 @@ Thank you for playing.
 	}
 	
 	function updateScenario() {
-		var s = SCENARIO[scenario];
+		var s = TUTO[scenario + 1];
 		scenTF.text = s.text;
 		scenTF.textColor = 0xFFFFFF;
 		var b = 0;
@@ -823,9 +833,9 @@ Thank you for playing.
 		fade(0xFF0000, 0.5, function() {
 			var same = lastSave != null && Math.abs(lastKill.x - lastSave.px) < 1 && Math.abs(lastKill.y - lastSave.py) < 1;
 			if( lastSave == null || (same && lastKill.count >= 1) ) {
-				px = SCENARIO[0].x + 0.5;
-				py = SCENARIO[0].y + 0.5;
-				pz = world.realHeight(px,py,256);
+				px = START.x + 0.5;
+				py = START.y + 0.5;
+				pz = scenario < 0 ? START.z : world.height0(Std.int(px),Std.int(py));
 			} else {
 				px = lastSave.px;
 				py = lastSave.py;
@@ -890,12 +900,15 @@ Thank you for playing.
 			}
 			
 			if( lastKey == "K".code ) {
-				scenario = 0;
+				scenario = -1;
+				angle = 0;
+				lastSave = null;
 				starFound = [];
 				termAccess = [];
 				updateScenario();
 				updateMap();
 				kill();
+				return;
 			}
 			
 			if( lastKey == Std.int(K.TAB) )
@@ -904,6 +917,15 @@ Thank you for playing.
 			if( lastKey == "M".code ) {
 				showMap = !showMap;
 				map.visible = showMap;
+			}
+			
+			if( lastKey == 27 || lastKey == Std.int(K.F1) ) {
+				if( musicChannel == null )
+					musicChannel = music.play();
+				else {
+					musicChannel.stop();
+					musicChannel = null;
+				}
 			}
 
 			if( DEBUG && lastKey == "T".code ) {
@@ -943,7 +965,7 @@ Thank you for playing.
 		if( py < 0 ) py += World.SIZE;
 		
 		if( !lock ) {
-			if( scenario == 0 && new flash.geom.Vector3D(px - SCENARIO[0].x, py - SCENARIO[0].y).length > 10 ) {
+			if( scenario == 0 && new flash.geom.Vector3D(px - START.x, py - START.y).length > 10 ) {
 				fade(0xFFFFFF,0.3);
 				scenario++;
 				updateScenario();
@@ -959,6 +981,10 @@ Thank you for playing.
 				pz = h;
 				elevator = null;
 				lock = false;
+				if( scenario == -1 ) {
+					scenario++;
+					updateScenario();
+				}
 			}
 		} else if( h < pz ) {
 			pz -= 0.6 * dt;
@@ -1060,7 +1086,7 @@ Thank you for playing.
 
 		ctx.present();
 		
-		var starget = SCENARIO[scenario];
+		var starget = TUTO[scenario+1];
 		var p = 0;
 		for( dx in -1...2 )
 			for( dy in -1...2 ) {
