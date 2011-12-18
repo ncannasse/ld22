@@ -19,7 +19,7 @@ class Main {
 
 	static var DEBUG = false;
 	
-	static var START = { x : 152, y : 69, z : 255 };
+	static var START = { x : 152, y : 69, z : 255, a : Math.PI/2 };
 	
 	static var TUTO = [
 		{ text : "Welcome to TheCity, we hope you enjoy your stay !", x : -1, y : -1 },
@@ -318,8 +318,8 @@ Thank you for playing.
 			px = START.x + 0.5;
 			py = START.y + 0.5;
 			pz = START.z;
+			angle = START.a;
 			scenario = -1;
-			angle = 0;
 			showMap = true;
 			starFound = [];
 			termAccess = [];
@@ -840,6 +840,7 @@ Thank you for playing.
 			if( lastSave == null || (same && lastKill.count >= 1) ) {
 				px = START.x + 0.5;
 				py = START.y + 0.5;
+				angle = START.a;
 				pz = scenario < 0 ? START.z : world.height0(Std.int(px),Std.int(py));
 			} else {
 				px = lastSave.px;
@@ -906,7 +907,6 @@ Thank you for playing.
 			
 			if( lastKey == "K".code ) {
 				scenario = -1;
-				angle = 0;
 				lastSave = null;
 				starFound = [];
 				termAccess = [];
