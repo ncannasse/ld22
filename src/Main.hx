@@ -311,7 +311,7 @@ Thank you for playing.
 		
 		music = new flash.media.Sound();
 		music.load(new flash.net.URLRequest("ld22.mp3"));
-		musicChannel = music.play();
+		musicChannel = music.play(0,99999);
 				
 		keys = [];
 		world = new World();
@@ -931,7 +931,7 @@ Thank you for playing.
 			
 			if( lastKey == 27 || lastKey == Std.int(K.F1) ) {
 				if( musicChannel == null )
-					musicChannel = music.play();
+					musicChannel = music.play(0,99999);
 				else {
 					musicChannel.stop();
 					musicChannel = null;
@@ -967,7 +967,7 @@ Thank you for playing.
 		px += Math.cos(angle) * move * speed;
 		py += Math.sin(angle) * move * speed;
 		
-		recall(speed,0.05);
+		recall(speed,0.05 * dt);
 		
 		px %= World.SIZE;
 		py %= World.SIZE;
