@@ -18,9 +18,9 @@ typedef Save = {
 class Main {
 
 	static var DEBUG = false;
-	
+
 	static var START = { x : 152, y : 69, z : 255, a : Math.PI/2 };
-	
+
 	static var TUTO = [
 		{ text : "Welcome to TheCity, we hope you enjoy your stay !", x : -1, y : -1 },
 		{ text : "(tip : please move around using arrows/WASD)", x : -1, y : -1 },
@@ -33,7 +33,7 @@ class Main {
 		{ text : "Find the other stars and terminals. Learn the secrets of TheCity", x : -1, y : -1 },
 		{ text : "", x : -1, y : -1 },
 	];
-	
+
 	static var TERMINALS = [
 		{ x : 178, y : 77, z : 33, req : 1, name : "MAY", person : "Mark Johnes - Mayor of TheCity", text : "
 I came to TheCity because I was supposed to become the Mayor here.
@@ -73,7 +73,7 @@ And now : I'm free !
 Of course, I feel a bit lonely, but I'm sure I'll find many other different people so we can share some time together !
 " },
 		{ x : 59, y : 110, z : 33, req : 6, name : "KIT", person : "Kitten", text : "Nyaaaaa ?" },
-		
+
 		{ x : 27, y : 37, z : 33, req : 7, name : "BOB", person : "Bob Beluga", text : "
 If I didn't won this lotery, I would have never have enough money to pay TheCorp and come here.
 
@@ -85,7 +85,7 @@ I was supposed to be happy forever, so why this strange feeling ?
 
 Of course, I can't go back, even if I want.
 " },
-				
+
 		{ x : 71, y : 68, z : 33, req : 10, name : "OPE", person : "TheCorp Operator", text : "
 I am not allowed to give you any information regarding TheCity.
 
@@ -135,7 +135,7 @@ No longer human.
 
 There is only one exit, but they are too much afraid of losing eternity.
 " },
-		
+
 		{ x : 122, y : 116, z : 181, req : 0, name : "SWT", person : "Switch button", text : "
 You need to collect all the STARs the activate the switch.
 
@@ -150,7 +150,7 @@ Use with care.
 You were warned.
 " },
 	];
-	
+
 	static var WIN_TEXT = "
 Congratulations !
 
@@ -169,57 +169,57 @@ Thank you for playing.
 - The Director @ncannasse
 ";
 
-	
+
 	static var STARS = [
 		{ x : 197, y : 75, z : 32 },
-		
+
 		{ x : 139, y : 100, z : 32 },
-		
+
 		{ x : 213, y : 61, z : 32 },
-		
+
 		{ x : 208, y : 199, z : 62 },
-		
+
 		{ x : 214, y : 44, z : 120 },
-		
+
 		{ x : 215, y : 25, z : 110 },
-		
+
 		{ x : 116, y : 45, z : 0 },
-		
+
 		{ x : 9, y : 138, z : 9 },
-		
+
 		{ x : 170, y : 153, z : 36 },
-		
+
 		{ x : 33, y : 38, z : 118 },
-		
+
 		{ x : 43, y : 219, z : 25 },
-		
+
 		{ x : 70, y : 170, z : 32 },
-		
+
 		{ x : 26, y : 85, z : 64 },
-		
+
 		{ x : 208, y : 171, z : 35 },
-		
+
 		{ x : 164, y : 226, z : 42 },
-		
+
 		{ x : 123, y : 159, z : 137 },
-		
+
 		{ x : 54, y : 122, z : 32 },
-		
+
 		{ x : 201, y : 125, z : 32 },
-		
+
 		{ x : 16, y : 233, z : 0 },
-		
+
 		{ x : 195, y : 234, z : 11 },
 	];
-	
+
 	static inline var SNOW_COUNT = 1000;
 	static inline var LIGHT_COUNT = 10;
-	
+
 	var fogColor : Int;
-	
+
 	var fps : Float;
 
-	
+
 	var stage : flash.display.Stage;
 	var s3d : flash.display.Stage3D;
 	var ctx : flash.display3D.Context3D;
@@ -233,86 +233,86 @@ Thank you for playing.
 	var showMap : Bool;
 
 	var elevator : Null<Float>;
-	
+
 	var lastFrame : Int;
-	
+
 	var camera : Camera;
 	var world : World;
-	
+
 	var walkedDist : Float;
-	
+
 	var px : Float;
 	var py : Float;
 	var pz : Float;
 	var angle : Float;
 	var lookup : Float;
 	var falling : Float;
-	
+
 	var root : flash.display.Sprite;
 	var cross : flash.display.Sprite;
 	var debug : flash.text.TextField;
 	var scenTF : flash.text.TextField;
-	
+
 	var save : flash.net.SharedObject;
 	var lastSave : Save;
 	var lastKill : { x : Float, y : Float, count : Int };
-	
+
 	var term : flash.display.Sprite;
 
 	var map : flash.display.Sprite;
 	var mapContent : flash.display.Sprite;
 	var cursor : flash.display.Sprite;
 	var blips : Array<flash.display.Sprite>;
-	
+
 	var triCount : Int;
 	var lock : Bool;
-	
+
 	var gtexture : Texture;
 	var lastKey : Int;
-	
+
 	var fadeMC : flash.display.Sprite;
 	var onFadeDone : Void -> Void;
-	
+
 	var scenario : Int;
 	var starFound : Array<Bool>;
 	var termAccess : Array<Bool>;
-	
+
 	var rndSeed : Int;
-	
+
 	var star : GeoSphere;
 	var starParts : Polygon;
 	var terminal : Cube;
-	
+
 	var vsnow : VBuf;
 	var ssnow : SnowShader;
 	var tsnow : Texture;
 	var vlight : VBuf;
-	
+
 	var ctexture : CubeTexture;
-	
+
 	var ui : flash.display.Sprite;
 	var termText : flash.text.TextField;
 	var starText : flash.text.TextField;
-	
+
 	var gameOver : Null<Float>;
-	
+
 	var music : flash.media.Sound;
 	var musicChannel : flash.media.SoundChannel;
-	
+
 	function new(root) {
 		this.root = root;
 		t = 0;
 
 		fps = 60;
-		
+
 		falling = 0;
 		rndSeed = 546451;
 		lookup = 0;
-		
+
 		music = new flash.media.Sound();
 		music.load(new flash.net.URLRequest("ld22.mp3"));
 		musicChannel = music.play(0,99999);
-				
+
 		keys = [];
 		world = new World();
 		lastKill = { x : 0., y : 0., count : 0 };
@@ -339,7 +339,7 @@ Thank you for playing.
 			if( starFound == null ) starFound = [];
 			if( termAccess == null ) termAccess = [];
 		}
-				
+
 		stage = root.stage;
 		s3d = stage.stage3Ds[0];
 		s3d.addEventListener( flash.events.Event.CONTEXT3D_CREATE, onReady );
@@ -347,12 +347,12 @@ Thank you for playing.
 		stage.addEventListener( flash.events.KeyboardEvent.KEY_UP, callback(onKey,false) );
 		stage.addEventListener( flash.events.Event.RESIZE, onResize );
 		flash.Lib.current.addEventListener(flash.events.Event.ENTER_FRAME, update);
-		
+
 		scenTF = newText(root);
 		var fmt = scenTF.defaultTextFormat;
 		fmt.align = flash.text.TextFormatAlign.CENTER;
 		scenTF.defaultTextFormat = fmt;
-		
+
 		debug = new flash.text.TextField();
 		debug.visible = false;
 		debug.textColor = 0xFFFFFF;
@@ -362,7 +362,7 @@ Thank you for playing.
 		debug.width = 1000;
 		debug.height = 1000;
 		root.addChild(debug);
-		
+
 		cursor = new flash.display.Sprite();
 		var g = cursor.graphics;
 		g.beginFill(0xFFFFFF, 0.8);
@@ -371,7 +371,7 @@ Thank you for playing.
 		g.lineStyle(1, 0xFFFFFF);
 		g.moveTo(3, 0);
 		g.lineTo(5, 0);
-		
+
 		cross = new flash.display.Sprite();
 		var g = cross.graphics;
 		g.lineStyle(1, 0xFFFFFF, 0.2);
@@ -385,7 +385,7 @@ Thank you for playing.
 		g.moveTo(-s, 0);
 		g.lineTo(-s - l, 0);
 		root.addChild(cross);
-		
+
 		s3d.requestContext3D();
 	}
 
@@ -402,7 +402,7 @@ Thank you for playing.
 		if( text != null ) tf.text = text;
 		return tf;
 	}
-	
+
 	function starCount()
 	{
 		var scount = 0;
@@ -411,14 +411,14 @@ Thank you for playing.
 				scount++;
 		return scount;
 	}
-	
+
 	function initTerm( title, text, req : Int ) {
 		if( term != null ) {
 			term.visible = true;
 			return;
 		}
-		
-		
+
+
 		term = new gfx.Terminal();
 		newText(title, -222, -170, term);
 		var t = newText(-207, -126, term);
@@ -427,46 +427,46 @@ Thank you for playing.
 		t.width = 400;
 		t.height = 1000;
 		t.text = text;
-		
+
 		if( starCount() < req ) {
 			t.textColor = 0xFF8080;
 			if( !DEBUG )
 				t.text = "ACCESS DENIED\n\nREQUIRE " + (req == 1 ? "ONE STAR" : req+ " STARS")+" CREDENTIALS";
 		}
-		
+
 		term.x = root.stage.stageWidth >> 1;
 		term.y = root.stage.stageHeight >> 1;
 		root.addChild(term);
 	}
-	
+
 	function initMap() {
 		map = new flash.display.Sprite();
 		root.addChild(map);
-		
+
 		var bmp = new flash.display.BitmapData(World.SIZE * 3,World.SIZE * 3);
 		for( x in 0...World.SIZE )
 			for( y in 0...World.SIZE ) {
 				var h = Std.int(world.realHeight(x, y, 256, 1000));
 				bmp.setPixel(x, y, h | (h << 8) | (h << 16));
 			}
-			
+
 		for( t in TERMINALS )
 			bmp.setPixel(t.x, t.y, 0xFF0000);
 		for( s in STARS )
 			bmp.setPixel(s.x, s.y, 0xFFFF00);
-			
+
 		bmp.copyPixels(bmp, bmp.rect, new flash.geom.Point(World.SIZE, 0));
 		bmp.copyPixels(bmp, bmp.rect, new flash.geom.Point(World.SIZE*2, 0));
 		bmp.copyPixels(bmp, bmp.rect, new flash.geom.Point(0, World.SIZE));
 		bmp.copyPixels(bmp, bmp.rect, new flash.geom.Point(0, World.SIZE*2));
-		
+
 		mapContent = new flash.display.Sprite();
-		
+
 		var mask = new flash.display.Sprite();
 		mask.graphics.beginFill(0xFF0000);
 		mask.graphics.drawCircle(0, 0, World.SIZE >> 2);
 		mapContent.mask = mask;
-		
+
 		var b = new flash.display.Bitmap(bmp, flash.display.PixelSnapping.ALWAYS);
 		b.x = -World.SIZE;
 		b.y = -World.SIZE;
@@ -479,14 +479,14 @@ Thank you for playing.
 				mapContent.addChild(b);
 				blips.push(b);
 			}
-		
+
 		map.addChild(mapContent);
 		map.addChild(mask);
 		map.addChild(cursor);
 		mapContent.alpha = 0.5;
 		cursor.alpha = 0.5;
 	}
-	
+
 	function initUI() {
 		ui = new flash.display.Sprite();
 		root.addChild(ui);
@@ -496,7 +496,7 @@ Thank you for playing.
 		sicon.y = 15;
 		starText = newText(30, 5, ui);
 		ui.addChild(sicon);
-		
+
 		var ticon = new gfx.Term();
 		ticon.filters = [new flash.filters.GlowFilter(0, 0.2, 2, 2, 30)];
 		ticon.x = 80;
@@ -505,8 +505,8 @@ Thank you for playing.
 		termText = newText(95, 5, ui);
 		ui.addChild(ticon);
 	}
-	
-	
+
+
 	function updateMap() {
 		var bmp = flash.Lib.as(mapContent.getChildAt(0), flash.display.Bitmap).bitmapData;
 		for( s in 0...STARS.length ) {
@@ -524,19 +524,19 @@ Thank you for playing.
 				tcount++;
 		termText.text = tcount + " / " + TERMINALS.length;
 	}
-	
+
 	function onKey( down, e : flash.events.KeyboardEvent ) {
 		if( down ) lastKey = e.keyCode;
 		keys[e.keyCode] = down;
 	}
-	
+
 	function onResize(_) {
 		if( ctx == null ) return;
 		ctx.dispose();
 		ctx = null;
 		s3d.requestContext3D();
 	}
-	
+
 	function updateScenario() {
 		var s = TUTO[scenario + 1];
 		scenTF.text = s.text;
@@ -559,72 +559,72 @@ Thank you for playing.
 			initUI();
 			updateMap();
 		}
-		
+
 		var w = stage.stageWidth, h = stage.stageHeight;
 		ctx = s3d.context3D;
 		ctx.enableErrorChecking = true;
 		ctx.configureBackBuffer( w, h, 0, true );
 
 		if( ctx.driverInfo.toLowerCase().indexOf("software") >= 0 )
-			newText("This game requires a video card with 3D acceleration enable, please update your video card drivers and check Adobe FAQ here http://adobe.ly/sJ7XFv", 20, 20, root).textColor = 0xFF4040;
-		
+			newText("This game requires a video card with 3D acceleration enable, please update your video card drivers and check Adobe FAQ here http://adobe.ly/sJ7XFv\nPlease check also that hardware acceleration is enable by doing Right Click / Parameters / First Tab / Check the box", 20, 20, root).textColor = 0xFF4040;
+
 		updateScenario();
-		
+
 		debug.y = h - 120;
-		
+
 		scenTF.y = h - 30;
 		scenTF.width = w;
-		
+
 		sshader = new StarShader(ctx);
 		lshader = new LightShader(ctx);
 		wshader = new WallShader(ctx);
 		gshader = new GroundShader(ctx);
-		
+
 		camera = new Camera();
 		camera.zNear = 0.01;
 		camera.zFar = 512;
 		camera.fov = 80;
 		camera.ratio = w / h;
-		
+
 		cross.x = w >> 1;
 		cross.y = h >> 1;
-		
+
 		map.visible = showMap;
 		var s = (h / 2) / World.SIZE;
 		map.scaleX = map.scaleY = s;
 		map.x = w - World.SIZE * s * 0.25 - 10;
 		map.y = h - World.SIZE * s * 0.25 - 10;
-		
+
 		ui.y = h - 30;
-		
+
 		var size = 256;
 		var bmp = new flash.display.BitmapData(size, size, true);
 		bmp.perlinNoise(64, 64, 4, 0, true, true, 7);
-		
+
 		var s = 0.45;
 		var ds = (1 - s) * 0.5;
-		
+
 		bmp.applyFilter(bmp, bmp.rect, new flash.geom.Point(0, 0), new flash.filters.ColorMatrixFilter([
 			s, ds, ds, 0, 0,
 			ds, s, ds, 0, 0,
 			ds, ds, s, 0, 0,
 			0, 0, 0, 1, 0,
 		]));
-		
+
 		fogColor = 0xFF758E7F;
-		
+
 		gtexture = ctx.createTexture(size, size, TextureFormat.BGRA, false);
 		gtexture.uploadFromBitmapData(bmp);
-		
+
 		initSnow();
 		initLight();
-		
+
 		world.build(ctx);
-		
+
 		star = new GeoSphere(5);
 		star.scale(0.5);
 		star.alloc(ctx);
-				
+
 		starParts = new Polygon([]);
 		for( i in 0...100 ) {
 			var a = Math.random() * Math.PI * 2;
@@ -641,22 +641,22 @@ Thank you for playing.
 			var y = r * Math.sin(a) * Math.sin(b);
 			var z = r * Math.cos(b);
 			starParts.points.push(new Vector(x, y, z));
-			
+
 			starParts.idx.push(i * 3);
 			starParts.idx.push(i * 3 + 1);
 			starParts.idx.push(i * 3 + 2);
 		}
 		starParts.alloc(ctx);
-		
+
 		terminal = new Cube();
 		terminal.translate( -0.5, -0.5, 0);
 		terminal.scale3(0.8, 0.8, 0.7);
 		terminal.unindex();
 		terminal.addNormals();
-		
+
 		tshader = new TerminalShader(ctx);
 		terminal.alloc(ctx);
-		
+
 		var size = 256;
 		ctexture = ctx.createCubeTexture(size, TextureFormat.BGRA, false);
 		var bmp = new flash.display.BitmapData(size, size, true, fogColor);
@@ -676,17 +676,17 @@ Thank you for playing.
 				s >>= 1;
 			}
 		}
-		
+
 	}
 
 	function initSnow() {
 		ssnow = new SnowShader(ctx);
-		
+
 		tsnow = ctx.createTexture(32, 32, TextureFormat.BGRA, false);
 		var bsnow = new flash.display.BitmapData(32, 32, true, 0);
 		bsnow.draw(new gfx.Snow());
 		tsnow.uploadFromBitmapData(bsnow);
-		
+
 		var bsnow = new flash.Vector<Float>();
 		var p = 0;
 		var count = SNOW_COUNT;
@@ -705,7 +705,7 @@ Thank you for playing.
 			bsnow[p++] = z;
 			bsnow[p++] = 1;
 			bsnow[p++] = 0;
-			
+
 
 			bsnow[p++] = x;
 			bsnow[p++] = y + 1;
@@ -717,11 +717,11 @@ Thank you for playing.
 		vsnow.uploadFromVector(bsnow, 0, count * 3);
 		vsnow.uploadFromVector(world.empty, count * 3, World.MAX_VERT - (count * 3));
 	}
-	
+
 	function rnd(v) {
 		return world.hash(rndSeed++) % v;
 	}
-	
+
 	function initLight() {
 		var b = new flash.Vector<Float>();
 		var p = 0;
@@ -740,7 +740,7 @@ Thank you for playing.
 					w = 0;
 					h = 5 + rnd(5);
 				}
-				
+
 				z0 = world.height(x, y, 256);
 				for( dy in 0...h+1 )
 					for( dx in 0...w+1 )
@@ -749,19 +749,19 @@ Thank you for playing.
 							break;
 						}
 			} while( !ok );
-			
+
 			var z = World.SIZE * 2;
 			var dx = 50 + w * 30;
 			var dy = 50 + h * 30;
 			if( w == 0 ) dx = 0;
 			if( h == 0 ) dy = 0;
 			var alpha = rnd(100) / 200 + 50;
-			
+
 			b[p++] = x + dx;
 			b[p++] = y + dy;
 			b[p++] = z;
 			b[p++] = alpha;
-			
+
 			b[p++] = x + w;
 			b[p++] = y + h;
 			b[p++] = z0;
@@ -771,12 +771,12 @@ Thank you for playing.
 			b[p++] = y;
 			b[p++] = z0;
 			b[p++] = alpha;
-			
+
 			b[p++] = x + dx;
 			b[p++] = y + dy;
 			b[p++] = z;
 			b[p++] = alpha;
-			
+
 			b[p++] = x + w;
 			b[p++] = y + h;
 			b[p++] = z0;
@@ -791,7 +791,7 @@ Thank you for playing.
 		vlight.uploadFromVector(b, 0, count * 6);
 		vlight.uploadFromVector(world.empty, count * 6, World.MAX_VERT - (count * 6));
 	}
-	
+
 	function calcHFront() {
 		var h = 0.;
 		var cos = Math.cos(angle);
@@ -801,7 +801,7 @@ Thank you for playing.
 			h += world.realHeight(px + cos * i * k, py + sin * i * k, pz, k * i + 3) * Math.pow(0.5,i+1);
 		return h;
 	}
-	
+
 	function recall(v:Float,r:Float) {
 		var rec = false;
 		for( i in 0...16 ) {
@@ -817,7 +817,7 @@ Thank you for playing.
 		if( rec && v > 0.01 )
 			recall(v * 0.8, r);
 	}
-	
+
 	function fade(color,alpha=1.,?onDone) {
 		if( fadeMC == null ) {
 			fadeMC = new flash.display.Sprite();
@@ -836,7 +836,7 @@ Thank you for playing.
 		g.drawRect(0, 0, root.stage.stageWidth, root.stage.stageHeight);
 		onFadeDone = onDone;
 	}
-	
+
 	function kill() {
 		lock = true;
 		fade(0xFF0000, 0.5, function() {
@@ -863,7 +863,7 @@ Thank you for playing.
 			haxe.Timer.delay(updateScenario, 3000);
 		});
 	}
-	
+
 	function update(_) {
 		if( ctx == null ) return;
 
@@ -871,11 +871,11 @@ Thank you for playing.
 		var dt = (now - lastFrame) / 16.667;
 		lastFrame = now;
 		if( dt > 6 ) dt = 6;
-		
+
 		fps = fps * 0.95 + (60 / dt) * 0.05;
-		
+
 		t += 0.01;
-		
+
 		if( gameOver != null ) {
 			gameOver += dt * 0.003;
 			var a = gameOver;
@@ -894,9 +894,9 @@ Thank you for playing.
 			var b = 0x7F * (1 - a) + 0xFF * a;
 			fogColor = 0xFF000000 | (Std.int(r) << 16) | (Std.int(g) << 8) | Std.int(b);
 		}
-		
+
 		var inbuilding = world.inBuilding(Std.int(px), Std.int(py), pz);
-		
+
 		var move = 0.;
 		var changed = false;
 
@@ -909,7 +909,7 @@ Thank you for playing.
 				changed = true;
 				move = -1;
 			}
-			
+
 			if( lastKey == "K".code ) {
 				scenario = -1;
 				lastSave = null;
@@ -920,15 +920,15 @@ Thank you for playing.
 				kill();
 				return;
 			}
-			
+
 			if( lastKey == Std.int(K.TAB) )
 				debug.visible = !debug.visible;
-				
+
 			if( lastKey == "M".code ) {
 				showMap = !showMap;
 				map.visible = showMap;
 			}
-			
+
 			if( lastKey == 27 || lastKey == Std.int(K.F1) ) {
 				if( musicChannel == null )
 					musicChannel = music.play(0,99999);
@@ -945,11 +945,11 @@ Thank you for playing.
 				if( py < 0 ) py += World.SIZE;
 				pz = world.height0(Std.int(px), Std.int(py));
 			}
-			
+
 			if( DEBUG && keys["U".code] )
 				pz = world.realHeight(px, py, 256);
 		}
-		
+
 		if( !lock || elevator != null ) {
 			if( keys[K.LEFT] || keys["Q".code] || keys["A".code] ) {
 				changed = true;
@@ -966,15 +966,15 @@ Thank you for playing.
 		if( inbuilding ) speed *= 0.5;
 		px += Math.cos(angle) * move * speed;
 		py += Math.sin(angle) * move * speed;
-		
+
 		recall(speed,0.05 * dt);
-		
+
 		px %= World.SIZE;
 		py %= World.SIZE;
 		angle %= Math.PI * 2;
 		if( px < 0 ) px += World.SIZE;
 		if( py < 0 ) py += World.SIZE;
-		
+
 		if( !lock ) {
 			if( scenario == 0 && new flash.geom.Vector3D(px - START.x, py - START.y).length > 10 ) {
 				fade(0xFFFFFF,0.3);
@@ -982,7 +982,7 @@ Thank you for playing.
 				updateScenario();
 			}
 		}
-		
+
 		var hfront = calcHFront();
 		var h = world.realHeight(px, py, elevator == null ? pz : (elevator > 0 ? 256 : 0) );
 		if( elevator != null ) {
@@ -1012,8 +1012,8 @@ Thank you for playing.
 			if( elevator != null )
 				lock = true;
 		}
-		
-		
+
+
 		if( changed && falling == 0 && !lock ) {
 			lastSave = {
 				px : px,
@@ -1029,12 +1029,12 @@ Thank you for playing.
 				save.setProperty(f, Reflect.field(lastSave, f));
 			try save.flush() catch( e : Dynamic ) { };
 		}
-		
-		
+
+
 		mapContent.x = -px;
 		mapContent.y = -py;
 		cursor.rotation = angle * 180 / Math.PI;
-		
+
 		var viewZ = pz + 2;
 		var lookupTarget = Math.sqrt(Math.abs(hfront - h)) * 0.5;
 		var ltMax = 0.8;
@@ -1051,19 +1051,19 @@ Thank you for playing.
 			ldist += lookup * 0.01;
 		var cx = px - Math.cos(angle) * ldist;
 		var cy = py - Math.sin(angle) * ldist;
-		
+
 		if( viewZ == 34 && changed && Math.abs(lookup + 0.088) < 0.01 ) {
 			walkedDist += speed;
 			viewZ += Math.sin(walkedDist) * 0.2;
 		} else
 			walkedDist = 0;
-			
+
 		camera.pos.set(cx, cy, viewZ);
 		camera.target.set(cx + Math.cos(angle), cy + Math.sin(angle), viewZ + lookup);
 		camera.update();
-		
+
 		triCount = 0;
-		
+
 		ctx.clear( ((fogColor>>16) & 0xFF) / 255 , ((fogColor>>8)&0xFF)/255,  (fogColor&0xFF)/255, 1);
 		ctx.setDepthTest( true, Compare.LESS );
 		ctx.setBlendFactors(Blend.ONE, Blend.ZERO);
@@ -1071,26 +1071,26 @@ Thank you for playing.
 
 		if( term != null )
 			term.visible = false;
-		
+
 		render(0, 0);
 		for( dx in -1...2 )
 			for( dy in -1...2 )
 				if( dx != 0 || dy != 0 )
 					render(dx, dy);
-					
+
 		if( term != null && !term.visible ) {
 			term.parent.removeChild(term);
 			term = null;
 		}
-				
+
 		ctx.setCulling( Face.NONE );
 		ctx.setBlendFactors(Blend.SOURCE_ALPHA, Blend.ONE);
 		ctx.setDepthTest(false, Compare.LESS);
-				
+
 		for( dx in -1...2 )
 			for( dy in -1...2 )
 				renderFX(dx, dy);
-				
+
 /*
 		ssnow.init( { mproj : camera.m.toMatrix(), t : t * 5 }, { tex : tsnow } );
 		ssnow.bind(vsnow);
@@ -1103,7 +1103,7 @@ Thank you for playing.
 
 
 		ctx.present();
-		
+
 		var starget = TUTO[scenario+1];
 		var p = 0;
 		for( dx in -1...2 )
@@ -1118,8 +1118,8 @@ Thank you for playing.
 				b.scaleX = dist / 37;
 				b.scaleY = dist / 37;
 			}
-		
-		
+
+
 		function float(f:Float) return Std.int(f * 100) / 100;
 		debug.text = [
 			"fps = " + float(fps),
@@ -1128,7 +1128,7 @@ Thank you for playing.
 			"scenario = "+scenario,
 			"triangles = "+triCount,
 		].join("\n");
-		
+
 		if( fadeMC != null ) {
 			fadeMC.alpha -= gameOver == null ? 0.06 : -0.01;
 			if( fadeMC.alpha <= 0 || fadeMC.alpha == 1 ) {
@@ -1141,52 +1141,52 @@ Thank you for playing.
 				}
 			}
 		}
-		
+
 		lastKey = 0;
 	}
-	
+
 	function pointBehind(x, y) {
 		var dx = x * World.SIZE - camera.pos.x;
 		var dy = y * World.SIZE - camera.pos.y;
 		var d = dx * Math.cos(angle) + dy * Math.sin(angle);
 		return d < 0;
 	}
-	
+
 	function behind( dx, dy ) {
 		return pointBehind(dx, dy) && pointBehind(dx + 1, dy + 1) && pointBehind(dx + 1, dy) && pointBehind(dx, dy + 1);
 	}
-	
+
 	function render(dx, dy) {
-		
+
 		if( behind(dx, dy) ) return;
-		
+
 		var project = camera.m.toMatrix();
 		project.prependTranslation(dx * World.SIZE, dy * World.SIZE, 0);
-				
+
 		var light = new flash.geom.Vector3D(2, 3, -4);
 		light.normalize();
-		
+
 		wshader.init(
 			{ mproj : project, cam : new flash.geom.Vector3D(px,py,pz), t : t * 5 },
 			{ color : 0xFF808080, fogColor : fogColor, light : light }
 		);
-		
+
 		for( b in world.vwalls )
 			draw(wshader, b.b, b.n);
-			
+
 		wshader.unbind();
-		
+
 		gshader.init(
 			{ mproj : project, t : t * 10 },
 			{ fogColor : fogColor, light : light, tex : gtexture }
 		);
-			
+
 		for( b in world.vgrounds )
 			draw(gshader, b.b, b.n);
-			
+
 		gshader.unbind();
-		
-		
+
+
 		var tpos = null, dmin = 0., sdist = 0.;
 		for( t in TERMINALS ) {
 			var dx = t.x + 0.5 + dx * World.SIZE - px;
@@ -1220,14 +1220,14 @@ Thank you for playing.
 				termAccess[index] = true;
 				updateMap();
 			}
-			
+
 			if( index == TERMINALS.length - 1 && starCount() == STARS.length * (DEBUG ? 0 : 1) ) {
 				initTerm("Victory !", StringTools.trim(WIN_TEXT).split("\r\n").join("\n"), 0);
 				gameOver = 0;
 			} else
 				initTerm("Terminal #"+pos+"-"+tpos.name, tpos.person+"\n\n"+StringTools.trim(tpos.text).split("\r\n").join("\n"), tpos.req);
 		}
-			
+
 		project.prependTranslation(tpos.x + 0.5, tpos.y + 0.5, tpos.z);
 		var mrot = new flash.geom.Matrix3D();
 		mrot.prependRotation( -t * 100, new flash.geom.Vector3D(0.3, -0.5, 0.6));
@@ -1236,18 +1236,18 @@ Thank you for playing.
 		tshader.init( { mproj : project, mrot : mrot, light : light }, { color : fogColor, fogColor : fogColor } );
 		tshader.draw(terminal.vbuf, terminal.ibuf);
 	}
-	
+
 	function renderFX(dx, dy) {
-		
+
 		if( behind(dx, dy) ) return;
-		
+
 		var project = camera.m.toMatrix();
 		project.prependTranslation(dx * World.SIZE, dy * World.SIZE, 0);
-		
+
 		lshader.init( { mproj : project, t : t * 0.1 + 100 }, { color : 0x20FFFFFF } );
 		draw(lshader, vlight, LIGHT_COUNT * 2);
 		lshader.unbind();
-		
+
 		var spos = null, dmin = 0.;
 		for( si in 0...STARS.length ) {
 			if( starFound[si] )
@@ -1262,9 +1262,9 @@ Thank you for playing.
 				dmin = d;
 			}
 		}
-		
+
 		if( spos != null ) {
-			
+
 			if( dmin < 0.8 && falling == 0 && !lock ) {
 				starFound[Lambda.indexOf(STARS, spos)] = true;
 				updateMap();
@@ -1278,26 +1278,26 @@ Thank you for playing.
 					updateScenario();
 				}
 			}
-					
+
 			project.prependTranslation(spos.x+0.5, spos.y+0.5, spos.z + 1);
 			project.prependRotation(t * 30, new flash.geom.Vector3D(0.3, -0.5, 0.6));
 			sshader.init( { mproj : project, maxDist : 1000. }, { color : 0x00FFFFFF } );
 			ctx.setDepthTest(true, Compare.LESS);
 			sshader.draw(star.vbuf, star.ibuf);
-			
+
 			ctx.setDepthTest(false, Compare.LESS);
 			project.prependRotation(-t * 50, new flash.geom.Vector3D(0.3, -0.5, 0.6));
 			sshader.init( { mproj : project, maxDist : 1.8 }, { color : 0x20FFFF00 } );
 			sshader.draw(starParts.vbuf, starParts.ibuf);
 		}
 	}
-	
+
 	function draw( shader : Shader, b : VBuf, ntri : Int ) {
 		shader.bind(b);
 		ctx.drawTriangles(world.indexes, 0, ntri);
 		triCount += ntri;
 	}
-	
+
 
 	static function main() {
 		haxe.Log.setColor(0xFF0000);
