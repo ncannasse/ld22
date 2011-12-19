@@ -10,6 +10,7 @@ typedef Save = {
 	angle : Float,
 	showMap : Bool,
 	scenario : Int,
+	sound : Null<Bool>,
 	starFound : Array<Bool>,
 	termAccess : Array<Bool>,
 }
@@ -336,6 +337,10 @@ Thank you for playing.
 			scenario = sv.scenario;
 			starFound = sv.starFound;
 			termAccess = sv.termAccess;
+			if( sv.sound != null && sv.sound == false ) {
+				musicChannel.stop();
+				musicChannel = null;
+			}
 			if( starFound == null ) starFound = [];
 			if( termAccess == null ) termAccess = [];
 		}
@@ -1024,6 +1029,7 @@ Thank you for playing.
 				scenario : scenario,
 				starFound : starFound,
 				termAccess : termAccess,
+				sound : musicChannel != null,
 			};
 			for( f in Reflect.fields(lastSave) )
 				save.setProperty(f, Reflect.field(lastSave, f));
