@@ -216,6 +216,8 @@ Thank you for playing.
 	static inline var LIGHT_COUNT = 10;
 	
 	var fogColor : Int;
+	
+	var fps : Float;
 
 	
 	var stage : flash.display.Stage;
@@ -300,6 +302,8 @@ Thank you for playing.
 	function new(root) {
 		this.root = root;
 		t = 0;
+
+		fps = 60;
 		
 		falling = 0;
 		rndSeed = 546451;
@@ -566,7 +570,7 @@ Thank you for playing.
 		
 		updateScenario();
 		
-		debug.y = h - 100;
+		debug.y = h - 120;
 		
 		scenTF.y = h - 30;
 		scenTF.width = w;
@@ -868,6 +872,7 @@ Thank you for playing.
 		lastFrame = now;
 		if( dt > 6 ) dt = 6;
 		
+		fps = fps * 0.95 + (60 / dt) * 0.05;
 		
 		t += 0.01;
 		
@@ -948,14 +953,14 @@ Thank you for playing.
 		if( !lock || elevator != null ) {
 			if( keys[K.LEFT] || keys["Q".code] || keys["A".code] ) {
 				changed = true;
-				angle -= 0.1 * dt;
+				angle -= 0.07 * Math.sqrt(dt);
 			}
 			if( keys[K.RIGHT] || keys["D".code] ) {
 				changed = true;
-				angle += 0.1 * dt;
+				angle += 0.07 * Math.sqrt(dt);
 			}
 		}
-			
+
 		var speed = 0.1 * dt;
 		if( keys[K.SHIFT] || keys[K.CONTROL] ) speed *= 3;
 		if( inbuilding ) speed *= 0.5;
@@ -1117,6 +1122,7 @@ Thank you for playing.
 		
 		function float(f:Float) return Std.int(f * 100) / 100;
 		debug.text = [
+			"fps = " + float(fps),
 			"pos = " + float(px)+"  "+ float(py)+ "  "+ float(pz),
 			"angle = " + Std.int(angle * 180 / Math.PI),
 			"scenario = "+scenario,
@@ -1139,7 +1145,21 @@ Thank you for playing.
 		lastKey = 0;
 	}
 	
+	function pointBehind(x, y) {
+		var dx = x * World.SIZE - camera.pos.x;
+		var dy = y * World.SIZE - camera.pos.y;
+		var d = dx * Math.cos(angle) + dy * Math.sin(angle);
+		return d < 0;
+	}
+	
+	function behind( dx, dy ) {
+		return pointBehind(dx, dy) && pointBehind(dx + 1, dy + 1) && pointBehind(dx + 1, dy) && pointBehind(dx, dy + 1);
+	}
+	
 	function render(dx, dy) {
+		
+		if( behind(dx, dy) ) return;
+		
 		var project = camera.m.toMatrix();
 		project.prependTranslation(dx * World.SIZE, dy * World.SIZE, 0);
 				
@@ -1218,6 +1238,9 @@ Thank you for playing.
 	}
 	
 	function renderFX(dx, dy) {
+		
+		if( behind(dx, dy) ) return;
+		
 		var project = camera.m.toMatrix();
 		project.prependTranslation(dx * World.SIZE, dy * World.SIZE, 0);
 		
